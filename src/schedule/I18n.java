@@ -3,7 +3,7 @@ package schedule;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
 
-public class i18n {
+public class I18n {
 
     public static String getLocalizedString(String key) {
         debug.log("Accessing: "+ key);

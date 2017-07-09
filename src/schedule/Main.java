@@ -12,14 +12,15 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         debug.log("Loading main dialog");
         Parent root = FXMLLoader.load(getClass().getResource("gui/login.fxml"));
-        primaryStage.setTitle(i18n.getLocalizedString("loginTitle"));
+        primaryStage.setTitle(I18n.getLocalizedString("loginTitle"));
         primaryStage.setScene(new Scene(root, 300, 200));
         primaryStage.show();
     }
 
 
     public static void main(String[] args) {
-        i18n.testLocale("ja");
+        I18n.testLocale("ja");
+        Database db = Database.getInstance();
         launch(args);
     }
 }
