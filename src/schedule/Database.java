@@ -17,7 +17,6 @@ public class Database {
     private static Connection connection = null;
 
 
-
     private Database() {
         try {
             debug.log("Connecting to database");
