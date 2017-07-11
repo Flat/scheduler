@@ -10,7 +10,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        debug.log("Loading main dialog");
+        log.console("Loading main dialog");
         Parent root = FXMLLoader.load(getClass().getResource("gui/login.fxml"));
         primaryStage.setTitle(I18n.getLocalizedString("loginTitle"));
         primaryStage.setScene(new Scene(root, 300, 200));
@@ -20,7 +20,6 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         I18n.testLocale("ja");
-        Database db = Database.getInstance();
         launch(args);
     }
 }
