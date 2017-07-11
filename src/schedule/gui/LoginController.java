@@ -14,8 +14,6 @@ import schedule.Database;
 import schedule.log;
 import schedule.I18n;
 
-import javafx.event.ActionEvent;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -45,13 +43,13 @@ public class LoginController implements Initializable {
     }
 
     @FXML
-    public void login(ActionEvent event) {
+    public void login() {
         Database database = new Database();
         boolean loggedIn;
         loggedIn = database.loginUser(textfieldUser.getText(), textfieldPassword.getText());
         if (loggedIn) {
             log.file("User " + textfieldUser.getText() + " logged in");
-            Parent root = null;
+            Parent root;
             try {
                 root = FXMLLoader.load(getClass().getResource("schedule.fxml"));
             } catch (IOException e) {
