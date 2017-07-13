@@ -19,7 +19,7 @@
           </Menu>
         </menus>
       </MenuBar>
-      <GridPane layoutX="8.0" layoutY="29.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
+      <GridPane layoutX="8.0" layoutY="29.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" fx:id="gridCalendar">
       </GridPane>
    </children>
 </AnchorPane>
