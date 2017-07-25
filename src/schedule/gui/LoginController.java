@@ -49,9 +49,10 @@ public class LoginController implements Initializable {
         loggedIn = database.loginUser(textfieldUser.getText(), textfieldPassword.getText());
         if (loggedIn) {
             log.file("User " + textfieldUser.getText() + " logged in");
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("schedule.fxml"));
             Parent root;
             try {
-                root = FXMLLoader.load(getClass().getResource("schedule.fxml"));
+                root = fxmlLoader.load();
             } catch (IOException e) {
                 e.printStackTrace();
                 return;
@@ -59,7 +60,11 @@ public class LoginController implements Initializable {
             Stage stage = new Stage();
             stage.setTitle(I18n.getLocalizedString("scheduleTitle"));
             stage.setScene(new Scene(root, 500, 400));
+            ScheduleController scheduleController = fxmlLoader.<ScheduleController>getController();
+            scheduleController.setUsername(textfieldUser.getText());
             stage.show();
+            Stage mainStage = (Stage) btnLogin.getScene().getWindow();
+            mainStage.close();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR, I18n.getLocalizedString("invalidLogin"));
             alert.showAndWait();
