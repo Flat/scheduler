@@ -1,18 +1,17 @@
 package schedule;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 public class City {
     private int cityId;
     private String city;
     private int countryId;
-    private Date createDate;
+    private Timestamp createDate;
     private String createdBy;
     private Timestamp lastUpdate;
     private String lastUpdateBy;
 
-    public City(int cityId, String city, int countryId, Date createDate, String createdBy, Timestamp lastUpdate, String lastUpdateBy) {
+    public City(int cityId, String city, int countryId, Timestamp createDate, String createdBy, Timestamp lastUpdate, String lastUpdateBy) {
         this.cityId = cityId;
         this.city = city;
         this.countryId = countryId;
@@ -46,11 +45,11 @@ public class City {
         this.countryId = countryId;
     }
 
-    public Date getCreateDate() {
+    public Timestamp getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(Timestamp createDate) {
         this.createDate = createDate;
     }
 

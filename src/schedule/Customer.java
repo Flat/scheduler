@@ -1,6 +1,5 @@
 package schedule;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 public class Customer {
@@ -8,7 +7,7 @@ public class Customer {
     private String customerName;
     private int addressId;
     private int active;
-    private Date createDate;
+    private Timestamp createDate;
     private String createdBy;
     private Timestamp lastUpdate;
     private String lastUpdateBy;
@@ -45,11 +44,11 @@ public class Customer {
         this.active = active;
     }
 
-    public Date getCreateDate() {
+    public Timestamp getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(Timestamp createDate) {
         this.createDate = createDate;
     }
 
@@ -77,7 +76,7 @@ public class Customer {
         this.lastUpdateBy = lastUpdateBy;
     }
 
-    public Customer(int customerId, String customerName, int addressId, int active, Date createDate, String createdBy, Timestamp lastUpdate, String lastUpdateBy) {
+    public Customer(int customerId, String customerName, int addressId, int active, Timestamp createDate, String createdBy, Timestamp lastUpdate, String lastUpdateBy) {
 
         this.customerId = customerId;
         this.customerName = customerName;

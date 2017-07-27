@@ -1,6 +1,10 @@
 package schedule;
 
 import java.io.UnsupportedEncodingException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.*;
 
 public class I18n {
@@ -21,4 +25,11 @@ public class I18n {
         Locale.setDefault(new Locale(langCode));
     }
 
+    public ZonedDateTime toLocalTime (Timestamp timestamp) {
+        return timestamp.toLocalDateTime().atZone(TimeZone.getDefault().toZoneId());
+    }
+
+    public Timestamp toUTC (ZonedDateTime zonedDateTime) {
+        return new Timestamp(zonedDateTime.toInstant().toEpochMilli());
+    }
 }

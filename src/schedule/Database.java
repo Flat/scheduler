@@ -1,5 +1,6 @@
 package schedule;
 
+import javafx.collections.ObservableArray;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
@@ -53,5 +54,9 @@ public class Database {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public Appointment[] getAppointments(String username) {
+
     }
 }
