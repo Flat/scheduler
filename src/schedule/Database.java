@@ -61,14 +61,14 @@ public class Database {
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
         try (Connection connection = getConnection()) {
             log.console("Getting appointments");
-            PreparedStatement preparedStatement = connection.prepareStatement("select * from U03oxz.appointment where createdBy = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM U03oxz.appointment INNER JOIN U03oxz.customer ON U03oxz.appointment.customerId = U03oxz.customer.customerId INNER JOIN U03oxz.address ON U03oxz.customer.addressId = U03oxz.address.addressId INNER JOIN U03oxz.city ON U03oxz.address.cityId = U03oxz.city.cityId INNER JOIN U03oxz.country ON U03oxz.city.countryId = U03oxz.country.countryId WHERE U03oxz.appointment.createdBy = ?;");
             preparedStatement.setString(1, username);
             log.console("Executing sql statement");
             boolean haveResult = preparedStatement.execute();
             if (haveResult) {
                 ResultSet resultSet = preparedStatement.getResultSet();
                 if(resultSet.next()){
-                    appointments.add(new Appointment(resultSet.getInt("appointmentId"), resultSet.getInt("customerId"), resultSet.getString("title"), resultSet.getString("description"), resultSet.getString("location"), resultSet.getString("contact"), resultSet.getString("url"), resultSet.getTimestamp("start"), resultSet.getTimestamp("end"), resultSet.getTimestamp("createDate"), resultSet.getString("createdBy"), resultSet.getTimestamp("lastUpdate"), resultSet.getString("lastUpdateBy")));
+                   // appointments.add(new Appointment(resultSet.getInt("appointmentId"), resultSet.getInt("customerId"), resultSet.getString("title"), resultSet.getString("description"), resultSet.getString("location"), resultSet.getString("contact"), resultSet.getString("url"), resultSet.getTimestamp("start"), resultSet.getTimestamp("end"), resultSet.getTimestamp("createDate"), resultSet.getString("createdBy"), resultSet.getTimestamp("lastUpdate"), resultSet.getString("lastUpdateBy")));
                 }
             }
             return appointments;
