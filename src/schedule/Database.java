@@ -68,7 +68,11 @@ public class Database {
             if (haveResult) {
                 ResultSet resultSet = preparedStatement.getResultSet();
                 if(resultSet.next()){
-                   // appointments.add(new Appointment(resultSet.getInt("appointmentId"), resultSet.getInt("customerId"), resultSet.getString("title"), resultSet.getString("description"), resultSet.getString("location"), resultSet.getString("contact"), resultSet.getString("url"), resultSet.getTimestamp("start"), resultSet.getTimestamp("end"), resultSet.getTimestamp("createDate"), resultSet.getString("createdBy"), resultSet.getTimestamp("lastUpdate"), resultSet.getString("lastUpdateBy")));
+                    Country country = new Country(resultSet.getInt("U030oxz.country.countryId"), resultSet.getString("U030oxz.country.country"), resultSet.getTimestamp("U030oxz.country.createDate"), resultSet.getString("U030oxz.country.createdBy"), resultSet.getTimestamp("U030oxz.country.lastUpdate"), resultSet.getString("U030oxz.country.lastUpdateBy"));
+                    City city = new City(resultSet.getInt("U030oxz.city.cityId"), resultSet.getString("U030oxz.city.city"), country, resultSet.getTimestamp("U030oxz.city.createDate"), resultSet.getString("U030oxz.city.createdBy"), resultSet.getTimestamp("U030oxz.city.lastUpdate"), resultSet.getString("U030oxz.city.lastUpdateBy"));
+                    // Address address = new Address();
+                    // Customer customer = new Customer();
+                    // appointments.add(new Appointment(resultSet.getInt("appointmentId"), resultSet.getInt("customerId"), resultSet.getString("title"), resultSet.getString("description"), resultSet.getString("location"), resultSet.getString("contact"), resultSet.getString("url"), resultSet.getTimestamp("start"), resultSet.getTimestamp("end"), resultSet.getTimestamp("createDate"), resultSet.getString("createdBy"), resultSet.getTimestamp("lastUpdate"), resultSet.getString("lastUpdateBy")));
                 }
             }
             return appointments;
