@@ -6,7 +6,7 @@ public class Address {
     private int addressId;
     private String address;
     private String address2;
-    private int cityId;
+    private City city;
     private String postalCode;
     private String phone;
     private Timestamp createDate;
@@ -14,11 +14,11 @@ public class Address {
     private Timestamp lastUpdate;
     private String lastUpdateBy;
 
-    public Address(int addressId, String address, String address2, int cityId, String postalCode, String phone, Timestamp createDate, String createdBy, Timestamp lastUpdate, String lastUpdateBy) {
+    public Address(int addressId, String address, String address2, City city, String postalCode, String phone, Timestamp createDate, String createdBy, Timestamp lastUpdate, String lastUpdateBy) {
         this.addressId = addressId;
         this.address = address;
         this.address2 = address2;
-        this.cityId = cityId;
+        this.city = city;
         this.postalCode = postalCode;
         this.phone = phone;
         this.createDate = createDate;
@@ -51,12 +51,12 @@ public class Address {
         this.address2 = address2;
     }
 
-    public int getCityId() {
-        return cityId;
+    public City getCity() {
+        return city;
     }
 
-    public void setCityId(int cityId) {
-        this.cityId = cityId;
+    public void setCity(City city) {
+        this.city = city;
     }
 
     public String getPostalCode() {

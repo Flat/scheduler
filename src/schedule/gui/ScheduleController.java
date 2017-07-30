@@ -3,7 +3,10 @@ package schedule.gui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
+import schedule.Appointment;
 
 public class ScheduleController {
 
@@ -16,6 +19,18 @@ public class ScheduleController {
 
     @FXML
     private Button btnNextMonth;
+
+    @FXML
+    private CheckBox cbShowByWeek;
+
+    @FXML
+    private Button btnAddAppt;
+
+    @FXML
+    private Button btnAddCustomer;
+
+    @FXML
+    private TableView<Appointment> appointmentTable;
 
     private String username;
 

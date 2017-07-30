@@ -3,8 +3,8 @@ package schedule;
 import java.sql.Timestamp;
 
 public class Appointment {
-    private int appointmentid;
-    private int customerid;
+    private int appointmentId;
+    private Customer customer;
     private String title;
     private String description;
     private String location;
@@ -18,19 +18,19 @@ public class Appointment {
     private String lastUpdateBy;
 
     public int getAppointmentid() {
-        return appointmentid;
+        return appointmentId;
     }
 
-    public void setAppointmentid(int appointmentid) {
-        this.appointmentid = appointmentid;
+    public void setAppointmentid(int appointmentId) {
+        this.appointmentId = appointmentId;
     }
 
-    public int getCustomerid() {
-        return customerid;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCustomerid(int customerid) {
-        this.customerid = customerid;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public String getTitle() {
@@ -121,10 +121,10 @@ public class Appointment {
         this.lastUpdateBy = lastUpdateBy;
     }
 
-    public Appointment(int appointmentid, int customerid, String title, String description, String location, String contact, String url, Timestamp start, Timestamp end, Timestamp createDate, String createdBy, Timestamp lastUpdate, String lastUpdateBy) {
+    public Appointment(int appointmentId, Customer customer, String title, String description, String location, String contact, String url, Timestamp start, Timestamp end, Timestamp createDate, String createdBy, Timestamp lastUpdate, String lastUpdateBy) {
 
-        this.appointmentid = appointmentid;
-        this.customerid = customerid;
+        this.appointmentId = appointmentId;
+        this.customer = customer;
         this.title = title;
         this.description = description;
         this.location = location;

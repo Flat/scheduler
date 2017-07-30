@@ -5,16 +5,16 @@ import java.sql.Timestamp;
 public class City {
     private int cityId;
     private String city;
-    private int countryId;
+    private Country country;
     private Timestamp createDate;
     private String createdBy;
     private Timestamp lastUpdate;
     private String lastUpdateBy;
 
-    public City(int cityId, String city, int countryId, Timestamp createDate, String createdBy, Timestamp lastUpdate, String lastUpdateBy) {
+    public City(int cityId, String city, Country country, Timestamp createDate, String createdBy, Timestamp lastUpdate, String lastUpdateBy) {
         this.cityId = cityId;
         this.city = city;
-        this.countryId = countryId;
+        this.country = country;
         this.createDate = createDate;
         this.createdBy = createdBy;
         this.lastUpdate = lastUpdate;
@@ -37,12 +37,12 @@ public class City {
         this.city = city;
     }
 
-    public int getCountryId() {
-        return countryId;
+    public Country getCountry() {
+        return country;
     }
 
-    public void setCountryId(int countryId) {
-        this.countryId = countryId;
+    public void setCountry(Country country) {
+        this.country = country;
     }
 
     public Timestamp getCreateDate() {
