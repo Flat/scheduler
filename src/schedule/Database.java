@@ -1,6 +1,7 @@
 package schedule;
 
-import javafx.collections.ObservableArray;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
@@ -56,7 +57,25 @@ public class Database {
         }
     }
 
-    public Appointment[] getAppointments(String username) {
-
+    public ObservableList<Appointment> getAppointments(String username) {
+        ObservableList<Appointment> appointments = FXCollections.observableArrayList();
+        try (Connection connection = getConnection()) {
+            log.console("Getting appointments");
+            PreparedStatement preparedStatement = connection.prepareStatement("select * from U03oxz.appointment where createdBy = ?");
+            preparedStatement.setString(1, username);
+            log.console("Executing sql statement");
+            boolean haveResult = preparedStatement.execute();
+            if (haveResult) {
+                ResultSet resultSet = preparedStatement.getResultSet();
+                if(resultSet.next()){
+                    appointments.add(new Appointment(resultSet.getInt("appointmentId"), resultSet.getInt("customerId"), resultSet.getString("title"), resultSet.getString("description"), resultSet.getString("location"), resultSet.getString("contact"), resultSet.getString("url"), resultSet.getTimestamp("start"), resultSet.getTimestamp("end"), resultSet.getTimestamp("createDate"), resultSet.getString("createdBy"), resultSet.getTimestamp("lastUpdate"), resultSet.getString("lastUpdateBy")));
+                }
+            }
+            return appointments;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
+
 }
