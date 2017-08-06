@@ -57,7 +57,7 @@ public class AppointmentManager {
     @FXML
     void Save(ActionEvent event) {
         if (tbContact.getText() != null && tbLocation.getText() != null && tbTitle != null && tbUrl.getText() != null && !cbStartTime.getSelectionModel().isEmpty() && !cbEndTime.getSelectionModel().isEmpty() && dpStart.getValue() != null && dpEnd.getValue() != null) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, DateTimeFormatter.ofPattern("MM/dd/yyy - hh:mm").format(parseStart()) + " " + DateTimeFormatter.ofPattern("MM/dd/yyy - hh:mm").format(parseEnd()));
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, DateTimeFormatter.ofPattern("MM/dd/yyy - HH:mm").format(parseStart()) + " " + DateTimeFormatter.ofPattern("MM/dd/yyy - HH:mm").format(parseEnd()));
             alert.getDialogPane().getChildren().stream().filter(node -> node instanceof Label).forEach(node -> ((Label) node).setMinHeight(Region.USE_PREF_SIZE));
             alert.showAndWait();
         }
@@ -76,22 +76,22 @@ public class AppointmentManager {
     }
 
     private ZonedDateTime parseStart(){
-        int hours = Integer.parseInt(cbStartTime.getSelectionModel().getSelectedItem().substring(0,1));
+        int hours = Integer.parseInt(cbStartTime.getSelectionModel().getSelectedItem().substring(0,2));
         if(cbStartTime.getSelectionModel().getSelectedItem().contains("PM")) {
             hours = hours + 12;
         }
-        int minutes = Integer.parseInt(cbStartTime.getSelectionModel().getSelectedItem().substring(3,4));
+        int minutes = Integer.parseInt(cbStartTime.getSelectionModel().getSelectedItem().substring(3,5));
         LocalDate localDate = dpStart.getValue();
         ZonedDateTime zonedDateTime = localDate.atTime(hours, minutes).atZone(ZoneId.systemDefault());
         return zonedDateTime;
     }
 
     private ZonedDateTime parseEnd(){
-        int hours = Integer.parseInt(cbEndTime.getSelectionModel().getSelectedItem().substring(0,1));
+        int hours = Integer.parseInt(cbEndTime.getSelectionModel().getSelectedItem().substring(0,2));
         if(cbEndTime.getSelectionModel().getSelectedItem().contains("PM")) {
             hours = hours + 12;
         }
-        int minutes = Integer.parseInt(cbEndTime.getSelectionModel().getSelectedItem().substring(3,4));
+        int minutes = Integer.parseInt(cbEndTime.getSelectionModel().getSelectedItem().substring(3,5));
         LocalDate localDate = dpEnd.getValue();
         return localDate.atTime(hours, minutes).atZone(ZoneId.systemDefault());
     }

@@ -112,12 +112,12 @@ public class ScheduleController {
         tcUrl.setCellValueFactory(new PropertyValueFactory<>("Url"));
         tcStart.setCellValueFactory(appointment -> {
             SimpleStringProperty simpleStringProperty = new SimpleStringProperty();
-            simpleStringProperty.setValue(DateTimeFormatter.ofPattern("MM/dd/yyy - hh:mm").format(appointment.getValue().getStart()));
+            simpleStringProperty.setValue(DateTimeFormatter.ofPattern("MM/dd/yyy - HH:mm").format(appointment.getValue().getStart()));
             return simpleStringProperty;
         });
         tcEnd.setCellValueFactory(appointment -> {
             SimpleStringProperty simpleStringProperty = new SimpleStringProperty();
-            simpleStringProperty.setValue(DateTimeFormatter.ofPattern("MM/dd/yyy - hh:mm").format(appointment.getValue().getEnd()));
+            simpleStringProperty.setValue(DateTimeFormatter.ofPattern("MM/dd/yyy - HH:mm").format(appointment.getValue().getEnd()));
             return simpleStringProperty;
         });
         tcCustomer.setCellValueFactory(new PropertyValueFactory<>("CustomerName"));
