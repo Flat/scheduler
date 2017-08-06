@@ -52,7 +52,7 @@
          <children>
             <Button fx:id="btnNewCustomer" mnemonicParsing="false" onAction="#newCustomer" text="Manage Customers" />
             <Button fx:id="btnRmAppt" mnemonicParsing="false" onAction="#removeAppt" text="Delete Appointment" />
-            <Button fx:id="btnNewAppt" mnemonicParsing="false" text="New Appointment" />
+            <Button fx:id="btnNewAppt" mnemonicParsing="false" text="New Appointment" onAction="#newAppt" />
          </children>
       </HBox>
    </children>

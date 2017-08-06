@@ -5,15 +5,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import schedule.Appointment;
 import schedule.Database;
 import schedule.I18n;
 
-import javax.swing.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
@@ -91,7 +93,7 @@ public class ScheduleController {
 
     private ZonedDateTime zonedDateTime;
 
-    public void setUsername(String name){
+    public void setUsername(String name) {
         username = name;
     }
 
@@ -139,12 +141,27 @@ public class ScheduleController {
 
     }
 
+    public void newAppt(ActionEvent actionEvent) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AppointmentManager.fxml"));
+        Parent root;
+        try {
+            root = fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        Stage stage = new Stage();
+        stage.setTitle("NewAppointment");
+        stage.setScene(new Scene(root, 350, 400));
+        stage.show();
+    }
+
     public void exit(ActionEvent actionEvent) {
         System.exit(0);
     }
 
     public void nextWeekorMonth(ActionEvent actionEvent) {
-        if(cbShowByWeek.isSelected()){
+        if (cbShowByWeek.isSelected()) {
             zonedDateTime = zonedDateTime.plusWeeks(1);
             updateTable();
         } else {
@@ -154,7 +171,7 @@ public class ScheduleController {
     }
 
     public void prevWeekorMonth(ActionEvent actionEvent) {
-        if(cbShowByWeek.isSelected()){
+        if (cbShowByWeek.isSelected()) {
             zonedDateTime = zonedDateTime.minusWeeks(1);
             updateTable();
         } else {
@@ -163,7 +180,7 @@ public class ScheduleController {
         }
     }
 
-    private void updateTable(){
+    private void updateTable() {
         Database database = new Database();
         appointments = database.getAppointments(username, zonedDateTime, cbShowByWeek.isSelected());
         appointmentTable.setItems(appointments);
