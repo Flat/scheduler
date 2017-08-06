@@ -1,15 +1,27 @@
 package schedule.gui;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import schedule.Appointment;
+import schedule.Database;
+import schedule.I18n;
+
+import javax.swing.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
+import java.util.Locale;
 
 public class ScheduleController {
 
+    private ObservableList<Appointment> appointments = FXCollections.observableArrayList();
 
     @FXML
     private Button btnPrevMonth;
@@ -30,12 +42,97 @@ public class ScheduleController {
     private Button btnAddCustomer;
 
     @FXML
+    private Button btnRmAppt;
+
+    @FXML
     private TableView<Appointment> appointmentTable;
+
+    @FXML
+    private TableColumn<Appointment, String> tcTitle;
+
+    @FXML
+    private TableColumn<Appointment, String> tcType;
+
+    @FXML
+    private TableColumn<Appointment, String> tcLocation;
+
+    @FXML
+    private TableColumn<Appointment, String> tcUrl;
+
+    @FXML
+    private TableColumn<Appointment, String> tcStart;
+
+    @FXML
+    private TableColumn<Appointment, String> tcEnd;
+
+    @FXML
+    private TableColumn<Appointment, String> tcCustomer;
+
+    @FXML
+    private TableColumn<Appointment, String> tcAddress;
+
+    @FXML
+    private TableColumn<Appointment, String> tcAddress2;
+
+    @FXML
+    private TableColumn<Appointment, String> tcCity;
+
+    @FXML
+    private TableColumn<Appointment, String> tcZipCode;
+
+    @FXML
+    private TableColumn<Appointment, String> tcPhone;
+
+    @FXML
+    private TableColumn<Appointment, String> tcCountry;
+
 
     private String username;
 
+    private ZonedDateTime zonedDateTime;
+
     public void setUsername(String name){
         username = name;
+    }
+
+    public void initTableData() {
+        updateTable();
+    }
+
+    @FXML
+    public void initialize() {
+        zonedDateTime = ZonedDateTime.now();
+        labelMonth.setText(zonedDateTime.getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault()) + " " + zonedDateTime.getYear());
+        appointmentTable.setItems(appointments);
+        tcTitle.setCellValueFactory(new PropertyValueFactory<>("Title"));
+        tcType.setCellValueFactory(new PropertyValueFactory<>("Description"));
+        tcLocation.setCellValueFactory(new PropertyValueFactory<>("Location"));
+        tcUrl.setCellValueFactory(new PropertyValueFactory<>("Url"));
+        tcStart.setCellValueFactory(appointment -> {
+            SimpleStringProperty simpleStringProperty = new SimpleStringProperty();
+            simpleStringProperty.setValue(DateTimeFormatter.ofPattern("MM/dd/yyy - hh:mm").format(appointment.getValue().getStart()));
+            return simpleStringProperty;
+        });
+        tcEnd.setCellValueFactory(appointment -> {
+            SimpleStringProperty simpleStringProperty = new SimpleStringProperty();
+            simpleStringProperty.setValue(DateTimeFormatter.ofPattern("MM/dd/yyy - hh:mm").format(appointment.getValue().getEnd()));
+            return simpleStringProperty;
+        });
+        tcCustomer.setCellValueFactory(new PropertyValueFactory<>("CustomerName"));
+        tcAddress.setCellValueFactory(new PropertyValueFactory<>("CustomerAddress"));
+        tcAddress2.setCellValueFactory(new PropertyValueFactory<>("CustomerAddress2"));
+        tcCity.setCellValueFactory(new PropertyValueFactory<>("City"));
+        tcZipCode.setCellValueFactory(new PropertyValueFactory<>("Zip"));
+        tcPhone.setCellValueFactory(new PropertyValueFactory<>("Phone"));
+        tcCountry.setCellValueFactory(new PropertyValueFactory<>("Country"));
+    }
+
+    public void cbChecked(ActionEvent actionEvent) {
+        updateTable();
+    }
+
+    public void removeAppt(ActionEvent actionEvent) {
+
     }
 
     public void newCustomer(ActionEvent actionEvent) {
@@ -44,5 +141,40 @@ public class ScheduleController {
 
     public void exit(ActionEvent actionEvent) {
         System.exit(0);
+    }
+
+    public void nextWeekorMonth(ActionEvent actionEvent) {
+        if(cbShowByWeek.isSelected()){
+            zonedDateTime = zonedDateTime.plusWeeks(1);
+            updateTable();
+        } else {
+            zonedDateTime = zonedDateTime.plusMonths(1);
+            updateTable();
+        }
+    }
+
+    public void prevWeekorMonth(ActionEvent actionEvent) {
+        if(cbShowByWeek.isSelected()){
+            zonedDateTime = zonedDateTime.minusWeeks(1);
+            updateTable();
+        } else {
+            zonedDateTime = zonedDateTime.minusMonths(1);
+            updateTable();
+        }
+    }
+
+    private void updateTable(){
+        Database database = new Database();
+        appointments = database.getAppointments(username, zonedDateTime, cbShowByWeek.isSelected());
+        appointmentTable.setItems(appointments);
+        updateText();
+    }
+
+    private void updateText() {
+        if (cbShowByWeek.isSelected()) {
+            labelMonth.setText("Week " + Integer.toString(I18n.ToWeekOfYear(zonedDateTime.toLocalDateTime())) + " of " + zonedDateTime.getYear());
+        } else {
+            labelMonth.setText(zonedDateTime.getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault()) + " " + zonedDateTime.getYear());
+        }
     }
 }

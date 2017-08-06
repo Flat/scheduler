@@ -25,19 +25,35 @@
       </MenuBar>
       <HBox alignment="CENTER" layoutX="135.0" layoutY="29.0" minWidth="300.0" prefHeight="29.0" spacing="15.0" AnchorPane.leftAnchor="135.0" AnchorPane.rightAnchor="135.0">
          <children>
-            <Button fx:id="btnPrevMonth" minWidth="50.0" mnemonicParsing="false" text="&lt;&lt;" />
+            <Button fx:id="btnPrevMonth" minWidth="50.0" mnemonicParsing="false" onAction="#prevWeekorMonth" text="&lt;&lt;" />
             <Label fx:id="labelMonth" alignment="CENTER" minWidth="200.0" text="Label" textAlignment="CENTER" />
-            <Button fx:id="btnNextMonth" minWidth="50.0" mnemonicParsing="false" text="&gt;&gt;" />
+            <Button fx:id="btnNextMonth" minWidth="50.0" mnemonicParsing="false" onAction="#nextWeekorMonth" text="&gt;&gt;" />
          </children>
       </HBox>
       <TableView fx:id="appointmentTable" layoutY="58.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-          <TableColumn prefWidth="75.0" text="C2" />
+          <TableColumn fx:id="tcTitle" prefWidth="75.0" text="Title" />
+          <TableColumn fx:id="tcType" prefWidth="75.0" text="Type" />
+            <TableColumn fx:id="tcLocation" prefWidth="75.0" text="Location" />
+            <TableColumn fx:id="tcUrl" prefWidth="75.0" text="URL" />
+            <TableColumn fx:id="tcStart" prefWidth="75.0" text="Start" />
+            <TableColumn fx:id="tcEnd" prefWidth="75.0" text="End" />
+            <TableColumn fx:id="tcCustomer" prefWidth="75.0" text="Customer" />
+            <TableColumn fx:id="tcAddress" prefWidth="75.0" text="Address" />
+            <TableColumn fx:id="tcAddress2" prefWidth="75.0" text="Address2" />
+            <TableColumn fx:id="tcCity" prefWidth="75.0" text="City" />
+            <TableColumn fx:id="tcZipCode" prefWidth="75.0" text="Zip Code" />
+            <TableColumn fx:id="tcPhone" prefWidth="75.0" text="Phone" />
+            <TableColumn fx:id="tcCountry" prefWidth="75.0" text="Country" />
         </columns>
       </TableView>
-      <Button fx:id="btnNewAppt" layoutX="526.0" layoutY="358.0" mnemonicParsing="false" text="New Appointment" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
-      <Button fx:id="btnNewCustomer" layoutX="339.0" layoutY="358.0" mnemonicParsing="false" onAction="#newCustomer" text="Manage Customers" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="152.0" />
-      <CheckBox fx:id="cbShowByWeek" layoutX="14.0" layoutY="363.0" mnemonicParsing="false" text="Show By Week" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="14.0" />
+      <CheckBox fx:id="cbShowByWeek" layoutX="14.0" layoutY="363.0" mnemonicParsing="false" onAction="#cbChecked" text="Show By Week" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="14.0" />
+      <HBox alignment="TOP_CENTER" layoutX="486.0" layoutY="387.0" prefHeight="28.0" prefWidth="422.0" spacing="5.0" AnchorPane.bottomAnchor="12.0" AnchorPane.rightAnchor="5.0">
+         <children>
+            <Button fx:id="btnNewCustomer" mnemonicParsing="false" onAction="#newCustomer" text="Manage Customers" />
+            <Button fx:id="btnRmAppt" mnemonicParsing="false" onAction="#removeAppt" text="Delete Appointment" />
+            <Button fx:id="btnNewAppt" mnemonicParsing="false" text="New Appointment" />
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

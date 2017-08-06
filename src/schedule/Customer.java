@@ -1,15 +1,15 @@
 package schedule;
 
-import java.sql.Timestamp;
+import java.time.Instant;
 
 public class Customer {
     private int customerId;
     private String customerName;
     private Address address;
     private int active;
-    private Timestamp createDate;
+    private Instant createDate;
     private String createdBy;
-    private Timestamp lastUpdate;
+    private Instant lastUpdate;
     private String lastUpdateBy;
 
     public int getCustomerId() {
@@ -44,11 +44,11 @@ public class Customer {
         this.active = active;
     }
 
-    public Timestamp getCreateDate() {
+    public Instant getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Timestamp createDate) {
+    public void setCreateDate(Instant createDate) {
         this.createDate = createDate;
     }
 
@@ -60,11 +60,11 @@ public class Customer {
         this.createdBy = createdBy;
     }
 
-    public Timestamp getLastUpdate() {
+    public Instant getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(Timestamp lastUpdate) {
+    public void setLastUpdate(Instant lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 
@@ -76,7 +76,7 @@ public class Customer {
         this.lastUpdateBy = lastUpdateBy;
     }
 
-    public Customer(int customerId, String customerName, Address address, int active, Timestamp createDate, String createdBy, Timestamp lastUpdate, String lastUpdateBy) {
+    public Customer(int customerId, String customerName, Address address, int active, Instant createDate, String createdBy, Instant lastUpdate, String lastUpdateBy) {
 
         this.customerId = customerId;
         this.customerName = customerName;

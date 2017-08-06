@@ -1,17 +1,17 @@
 package schedule;
 
-import java.sql.Timestamp;
+import java.time.Instant;
 
 public class City {
     private int cityId;
     private String city;
     private Country country;
-    private Timestamp createDate;
+    private Instant createDate;
     private String createdBy;
-    private Timestamp lastUpdate;
+    private Instant lastUpdate;
     private String lastUpdateBy;
 
-    public City(int cityId, String city, Country country, Timestamp createDate, String createdBy, Timestamp lastUpdate, String lastUpdateBy) {
+    public City(int cityId, String city, Country country, Instant createDate, String createdBy, Instant lastUpdate, String lastUpdateBy) {
         this.cityId = cityId;
         this.city = city;
         this.country = country;
@@ -45,11 +45,11 @@ public class City {
         this.country = country;
     }
 
-    public Timestamp getCreateDate() {
+    public Instant getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Timestamp createDate) {
+    public void setCreateDate(Instant createDate) {
         this.createDate = createDate;
     }
 
@@ -61,11 +61,11 @@ public class City {
         this.createdBy = createdBy;
     }
 
-    public Timestamp getLastUpdate() {
+    public Instant getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(Timestamp lastUpdate) {
+    public void setLastUpdate(Instant lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 

@@ -2,9 +2,10 @@ package schedule;
 
 import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.ZonedDateTime;
+import java.time.*;
+import java.time.temporal.ChronoField;
+import java.time.temporal.TemporalField;
+import java.time.temporal.WeekFields;
 import java.util.*;
 
 public class I18n {
@@ -29,40 +30,14 @@ public class I18n {
         return timestamp.toLocalDateTime().atZone(TimeZone.getDefault().toZoneId());
     }
 
-    public static Timestamp toUTC (ZonedDateTime zonedDateTime) {
-        return new Timestamp(zonedDateTime.toInstant().toEpochMilli());
+    public static int ToWeekOfYear(LocalDateTime localDateTime) {
+        TemporalField temporalField = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
+        return localDateTime.get(temporalField);
     }
 
-    public static int timestampToMonth(Timestamp timestamp) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(timestamp.getTime());
-        return calendar.get(Calendar.MONTH);
-    }
-
-    public static int timestampToYear(Timestamp timestamp) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(timestamp.getTime());
-        return calendar.get(Calendar.YEAR);
-    }
-
-    public static int timestampToWeekOfYear(Timestamp timestamp) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(timestamp.getTime());
-        return calendar.get(Calendar.WEEK_OF_YEAR);
-    }
-
-    public static java.sql.Date startOfWeek(int weekOfYear) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.WEEK_OF_YEAR, weekOfYear);
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        return (java.sql.Date) calendar.getTime();
-    }
-
-    public static java.sql.Date endOfWeek(int weekOfYear) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.WEEK_OF_YEAR, weekOfYear);
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-        return (java.sql.Date) calendar.getTime();
+    public static LocalDate startOfWeek(int weekOfYear) {
+        LocalDate localDate = LocalDate.now().with(ChronoField.ALIGNED_WEEK_OF_YEAR, weekOfYear);
+        return localDate.with(DayOfWeek.MONDAY);
     }
 
 }

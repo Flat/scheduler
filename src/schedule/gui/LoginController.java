@@ -59,9 +59,10 @@ public class LoginController implements Initializable {
             }
             Stage stage = new Stage();
             stage.setTitle(I18n.getLocalizedString("scheduleTitle"));
-            stage.setScene(new Scene(root, 500, 400));
-            ScheduleController scheduleController = fxmlLoader.<ScheduleController>getController();
+            stage.setScene(new Scene(root, 600, 400));
+            ScheduleController scheduleController = fxmlLoader.getController();
             scheduleController.setUsername(textfieldUser.getText());
+            scheduleController.initTableData();
             stage.show();
             Stage mainStage = (Stage) btnLogin.getScene().getWindow();
             mainStage.close();

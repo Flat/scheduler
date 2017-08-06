@@ -13,7 +13,7 @@ public class Main extends Application {
         log.console("Loading main dialog");
         Parent root = FXMLLoader.load(getClass().getResource("gui/login.fxml"));
         primaryStage.setTitle(I18n.getLocalizedString("loginTitle"));
-        primaryStage.setScene(new Scene(root, 300, 200));
+        primaryStage.setScene(new Scene(root, 350, 200));
         primaryStage.show();
     }
 

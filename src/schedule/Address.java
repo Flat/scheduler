@@ -1,6 +1,6 @@
 package schedule;
 
-import java.sql.Timestamp;
+import java.time.Instant;
 
 public class Address {
     private int addressId;
@@ -9,12 +9,12 @@ public class Address {
     private City city;
     private String postalCode;
     private String phone;
-    private Timestamp createDate;
+    private Instant createDate;
     private String createdBy;
-    private Timestamp lastUpdate;
+    private Instant lastUpdate;
     private String lastUpdateBy;
 
-    public Address(int addressId, String address, String address2, City city, String postalCode, String phone, Timestamp createDate, String createdBy, Timestamp lastUpdate, String lastUpdateBy) {
+    public Address(int addressId, String address, String address2, City city, String postalCode, String phone, Instant createDate, String createdBy, Instant lastUpdate, String lastUpdateBy) {
         this.addressId = addressId;
         this.address = address;
         this.address2 = address2;
@@ -75,11 +75,11 @@ public class Address {
         this.phone = phone;
     }
 
-    public Timestamp getCreateDate() {
+    public Instant getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Timestamp createDate) {
+    public void setCreateDate(Instant createDate) {
         this.createDate = createDate;
     }
 
@@ -91,11 +91,11 @@ public class Address {
         this.createdBy = createdBy;
     }
 
-    public Timestamp getLastUpdate() {
+    public Instant getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(Timestamp lastUpdate) {
+    public void setLastUpdate(Instant lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 
