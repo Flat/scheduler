@@ -82,8 +82,8 @@ public class AppointmentManager {
         }
         int minutes = Integer.parseInt(cbStartTime.getSelectionModel().getSelectedItem().substring(3,5));
         LocalDate localDate = dpStart.getValue();
-        ZonedDateTime zonedDateTime = localDate.atTime(hours, minutes).atZone(ZoneId.systemDefault());
-        return zonedDateTime;
+        return localDate.atTime(hours, minutes).atZone(ZoneId.systemDefault());
+
     }
 
     private ZonedDateTime parseEnd(){

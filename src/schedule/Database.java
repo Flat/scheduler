@@ -60,6 +60,8 @@ public class Database {
         }
     }
 
+
+
     public ObservableList<Appointment> getAppointments(String username, ZonedDateTime zonedDateTime, Boolean byWeek) {
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
         if(byWeek){
