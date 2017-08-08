@@ -220,4 +220,63 @@ public class Database {
 
     }
 
+    public ObservableList<Customer> getCustomers(String username) {
+        ObservableList<Customer> customers = FXCollections.observableArrayList();
+        try (Connection connection = getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT U03oxz.customer.customerId," +
+                    "         U03oxz.customer.customerName AS CustomerName," +
+                    "         U03oxz.customer.addressId as AddressId," +
+                    "         U03oxz.customer.active as CustomerActive," +
+                    "         U03oxz.customer.createDate AS CustomerCreateDate," +
+                    "         U03oxz.customer.CreatedBy AS CustomerCreatedBy," +
+                    "         U03oxz.customer.lastUpdate AS CustomerLastUpdate," +
+                    "         U03oxz.customer.lastUpdateBy AS CustomerLastUpdateBy," +
+                    "         U03oxz.address.address AS Address1," +
+                    "         U03oxz.address.address2 AS Address2," +
+                    "         U03oxz.address.cityId AS CityId," +
+                    "         U03oxz.address.postalCode AS ZipCode," +
+                    "         U03oxz.address.phone AS AddressPhone," +
+                    "         U03oxz.address.createDate AS AddressCreateDate," +
+                    "         U03oxz.address.createdBy AS AddressCreatedBy," +
+                    "         U03oxz.address.lastUpdate AS AddressLastUpdate," +
+                    "         U03oxz.address.lastUpdateBy AS AddressLastUpdateBy," +
+                    "         U03oxz.city.city as City," +
+                    "         U03oxz.city.countryId as CountryId," +
+                    "         U03oxz.city.createDate as CityCreateDate," +
+                    "         U03oxz.city.createdBy as CityCreatedBy," +
+                    "         U03oxz.city.lastUpdate as CityLastUpdate," +
+                    "         U03oxz.city.lastUpdateBy AS CityLastUpdateBy," +
+                    "         U03oxz.country.country AS Country," +
+                    "         U03oxz.country.createDate AS CountryCreateDate," +
+                    "         U03oxz.country.createdBy AS CountryCreatedBy," +
+                    "         U03oxz.country.lastUpdate AS CountryLastUpdate," +
+                    "         U03oxz.country.lastUpdateBy AS CountryLastUpdatedBy " +
+                    "FROM U03oxz.customer " +
+                    "INNER JOIN U03oxz.address " +
+                    "    ON U03oxz.customer.addressId = U03oxz.address.addressId " +
+                    "INNER JOIN U03oxz.city " +
+                    "    ON U03oxz.address.cityId = U03oxz.city.cityId " +
+                    "INNER JOIN U03oxz.country " +
+                    "    ON U03oxz.city.countryId = U03oxz.country.countryId " +
+                    "WHERE U03oxz.customer.createdBy = ? ;");
+            preparedStatement.setString(1, username);
+            boolean haveResult = preparedStatement.execute();
+            if(haveResult){
+                ResultSet resultSet = preparedStatement.getResultSet();
+                while(resultSet.next()){
+                    Country country = new Country(resultSet.getInt("CountryId"), resultSet.getString("Country"), resultSet.getTimestamp("CountryCreateDate").toInstant(), resultSet.getString("CountryCreatedBy"), resultSet.getTimestamp("CountryLastUpdate").toInstant(), resultSet.getString("CountryLastUpdatedBy"));
+                    City city = new City(resultSet.getInt("CityId"), resultSet.getString("City"), country, resultSet.getTimestamp("CityCreateDate").toInstant(), resultSet.getString("CityCreatedBy"), resultSet.getTimestamp("CityLastUpdate").toInstant(), resultSet.getString("CityLastUpdateBy"));
+                    Address address = new Address(resultSet.getInt("AddressId"), resultSet.getString("Address1"), resultSet.getString("Address2"), city, resultSet.getString("ZipCode"), resultSet.getString("AddressPhone"), resultSet.getTimestamp("AddressCreateDate").toInstant(), resultSet.getString("AddressCreatedBy"), resultSet.getTimestamp("AddressLastUpdate").toInstant(), resultSet.getString("AddressLastUpdateBy"));
+                    Customer customer = new Customer(resultSet.getInt("CustomerId"), resultSet.getString("CustomerName"), address, resultSet.getInt("CustomerActive"), resultSet.getTimestamp("CustomerCreateDate").toInstant(), resultSet.getString("CustomerCreatedBy"), resultSet.getTimestamp("CustomerLastUpdate").toInstant(), resultSet.getString("CustomerLastUpdateBy"));
+                    customers.add(customer);
+                }
+            }
+        } catch(java.sql.SQLException e) {
+            log.console(e.getMessage());
+            e.printStackTrace();
+        }
+
+        return customers;
+    }
+
 }
