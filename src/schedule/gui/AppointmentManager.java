@@ -10,7 +10,6 @@ import javafx.util.Callback;
 import schedule.Appointment;
 import schedule.Customer;
 import schedule.Database;
-import schedule.log;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -171,7 +170,7 @@ public class AppointmentManager {
             cbCustomer.pseudoClassStateChanged(invalid, false);
         }
         if(!cbStartTime.getSelectionModel().isEmpty() && !cbEndTime.getSelectionModel().isEmpty()){
-            if(parseStart().compareTo(parseEnd()) > 0) {
+            if(parseStart().compareTo(parseEnd()) >= 0) {
                 cbStartTime.pseudoClassStateChanged(invalid, true);
                 cbEndTime.pseudoClassStateChanged(invalid, true);
                 valid = false;
@@ -187,10 +186,6 @@ public class AppointmentManager {
                 ZonedDateTime start = parseStart();
                 ZonedDateTime end = parseEnd();
                 for (Appointment appointment: appointments) {
-                    log.console(start.toString());
-                    log.console(appointment.getStart().toString());
-                    log.console(end.toString());
-                    log.console(appointment.getEnd().toString());
                     if((start.isAfter(appointment.getStart()) || start.isEqual(appointment.getStart())) && start.isBefore(appointment.getEnd()) || (end.isAfter(appointment.getStart()) && (end.isBefore(appointment.getEnd()) || end.isEqual(appointment.getEnd())))) {
                         Alert alert = new Alert(Alert.AlertType.ERROR, String.format("This appointment would overlap with your appointment with %s at %tc", appointment.getCustomer().getCustomerName(), appointment.getStart()), ButtonType.OK);
                         alert.showAndWait();

@@ -258,7 +258,7 @@ public class Database {
                     "    ON U03oxz.address.cityId = U03oxz.city.cityId " +
                     "INNER JOIN U03oxz.country " +
                     "    ON U03oxz.city.countryId = U03oxz.country.countryId " +
-                    "WHERE U03oxz.customer.createdBy = ? ;");
+                    "WHERE U03oxz.customer.createdBy = ? AND U03oxz.customer.active = 1 ;");
             preparedStatement.setString(1, username);
             boolean haveResult = preparedStatement.execute();
             if(haveResult){

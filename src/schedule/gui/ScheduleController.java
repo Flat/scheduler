@@ -18,9 +18,11 @@ import schedule.I18n;
 
 import javax.xml.crypto.Data;
 import java.io.IOException;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
+import java.time.temporal.ChronoUnit;
 import java.util.Locale;
 
 public class ScheduleController {
@@ -101,6 +103,7 @@ public class ScheduleController {
 
     public void initTableData() {
         updateTable();
+        reminders();
     }
 
     @FXML
@@ -202,6 +205,17 @@ public class ScheduleController {
             labelMonth.setText("Week " + Integer.toString(I18n.ToWeekOfYear(zonedDateTime.toLocalDateTime())) + " of " + zonedDateTime.getYear());
         } else {
             labelMonth.setText(zonedDateTime.getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault()) + " " + zonedDateTime.getYear());
+        }
+    }
+
+    private void reminders(){
+        ObservableList<Appointment> appointments = appointmentTable.getItems();
+        ZonedDateTime now = ZonedDateTime.now(ZoneId.systemDefault());
+        for (Appointment appt: appointments) {
+            if(ChronoUnit.MINUTES.between(now, appt.getStart()) <= 15 && now.isBefore(appt.getStart())){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, String.format("You have an appointment with %s at %tc", appt.getCustomer().getCustomerName(), appt.getStart()), ButtonType.OK);
+                alert.show();
+            }
         }
     }
 }
