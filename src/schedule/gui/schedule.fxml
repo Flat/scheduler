@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
@@ -30,7 +31,7 @@
             <Button fx:id="btnNextMonth" minWidth="50.0" mnemonicParsing="false" onAction="#nextWeekorMonth" text="&gt;&gt;" />
          </children>
       </HBox>
-      <TableView fx:id="appointmentTable" layoutY="58.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
+      <TableView fx:id="appointmentTable" layoutY="58.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="60.0">
         <columns>
           <TableColumn fx:id="tcTitle" prefWidth="75.0" text="Title" />
           <TableColumn fx:id="tcType" prefWidth="75.0" text="Type" />
@@ -52,8 +53,11 @@
          <children>
             <Button fx:id="btnNewCustomer" mnemonicParsing="false" onAction="#newCustomer" text="Manage Customers" />
             <Button fx:id="btnRmAppt" mnemonicParsing="false" onAction="#removeAppt" text="Delete Appointment" />
-            <Button fx:id="btnNewAppt" mnemonicParsing="false" text="New Appointment" onAction="#newAppt" />
+            <Button fx:id="btnNewAppt" mnemonicParsing="false" onAction="#newAppt" text="New Appointment" />
          </children>
       </HBox>
    </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
 </AnchorPane>
