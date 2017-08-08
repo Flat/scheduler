@@ -10,11 +10,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import schedule.Appointment;
 import schedule.Database;
 import schedule.I18n;
 
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -134,7 +136,9 @@ public class ScheduleController {
     }
 
     public void removeAppt(ActionEvent actionEvent) {
-
+        Database database = new Database();
+        database.deleteAppointment(appointmentTable.getSelectionModel().getSelectedItem());
+        updateTable();
     }
 
     public void newCustomer(ActionEvent actionEvent) {
@@ -142,6 +146,7 @@ public class ScheduleController {
     }
 
     public void newAppt(ActionEvent actionEvent) {
+        Button button = (Button) actionEvent.getSource();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AppointmentManager.fxml"));
         Parent root;
         try {
@@ -155,7 +160,10 @@ public class ScheduleController {
         stage.setScene(new Scene(root, 350, 400));
         AppointmentManager appointmentManager = fxmlLoader.getController();
         appointmentManager.init(username, appointments);
-        stage.show();
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(button.getScene().getWindow());
+        stage.showAndWait();
+        updateTable();
     }
 
     public void exit(ActionEvent actionEvent) {

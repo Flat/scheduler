@@ -279,4 +279,35 @@ public class Database {
         return customers;
     }
 
+    public void deleteAppointment(Appointment appointment){
+        try(Connection connection = getConnection()){
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM U03oxz.appointment WHERE U03oxz.appointment.appointmentId = ? ;");
+            preparedStatement.setInt(1, appointment.getAppointmentid());
+            preparedStatement.execute();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void addAppointment(Appointment appointment) {
+        try(Connection connection = getConnection()){
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO U03oxz.appointment (customerId, title, description, location, contact, url, start, end, createDate, createdBy, lastUpdate, lastUpdateBy) VALUES( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? );");
+            preparedStatement.setInt(1, appointment.getCustomer().getCustomerId());
+            preparedStatement.setString(2, appointment.getTitle());
+            preparedStatement.setString(3, appointment.getDescription());
+            preparedStatement.setString(4, appointment.getLocation());
+            preparedStatement.setString(5, appointment.getContact());
+            preparedStatement.setString(6, appointment.getUrl());
+            preparedStatement.setTimestamp(7, Timestamp.from(appointment.getStart().toInstant()));
+            preparedStatement.setTimestamp(8, Timestamp.from(appointment.getEnd().toInstant()));
+            preparedStatement.setTimestamp(9, Timestamp.from(appointment.getCreateDate()));
+            preparedStatement.setString(10, appointment.getCreatedBy());
+            preparedStatement.setTimestamp(11, Timestamp.from(appointment.getLastUpdate()));
+            preparedStatement.setString(12, appointment.getLastUpdateBy());
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
