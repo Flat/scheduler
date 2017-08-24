@@ -1,6 +1,0 @@
-.text-field:invalid {
-    -fx-text-box-border: red;
-}
-.box:invalid {
-    -fx-border-color: red;
-}
