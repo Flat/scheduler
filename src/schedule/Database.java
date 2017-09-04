@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
+import javax.xml.transform.Result;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
@@ -308,6 +309,48 @@ public class Database {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void addCustomer(Customer customer, String username) {
+        if(customer.getCustomerId() == 0) {
+            int countryId = 0;
+            int cityId = 0;
+
+            try(Connection connection = getConnection()) {
+                PreparedStatement selectCountry = connection.prepareStatement("SELECT * FROM U03oxz.country WHERE U03oxz.country.country = ?");
+                PreparedStatement insertCountry = connection.prepareStatement("INSERT INTO U03oxz.country(country) VALUES (?)");
+                PreparedStatement selectCity = connection.prepareStatement("SELECT * FROM U03oxz.city WHERE U03oxz.city.city = ?");
+                PreparedStatement insertCity =  connection.prepareStatement("INSERT INTO U03oxz.city(city) VALUES(?)");
+                selectCountry.setString(1, customer.getAddress().getCity().getCountry().getCountry());
+                insertCountry.setString(1, customer.getAddress().getCity().getCountry().getCountry());
+                selectCity.setString(1, customer.getAddress().getCity().getCity());
+                insertCity.setString(1, customer.getAddress().getCity().getCity());
+                ResultSet resultCountry = selectCountry.executeQuery();
+                if(resultCountry.next()){
+                    countryId = resultCountry.getInt("countryId");
+                }
+                if (countryId == 0) {
+                    insertCountry.executeUpdate();
+                    ResultSet countryIdResult = insertCountry.getGeneratedKeys();
+                    if(countryIdResult.next()) {
+                        countryId = countryIdResult.getInt("countryId");
+                    }
+                }
+                ResultSet resultCity = selectCity.executeQuery();
+                if(resultCity.next()){
+                    cityId = resultCity.getInt("cityId");
+                } else {
+                    insertCity.executeUpdate();
+                    ResultSet cityIdResult = insertCity.getGeneratedKeys();
+
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            // update customer
+        }
+
     }
 
 }
