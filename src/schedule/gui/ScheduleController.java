@@ -145,7 +145,24 @@ public class ScheduleController {
     }
 
     public void newCustomer(ActionEvent actionEvent) {
-
+        Button button = (Button) actionEvent.getSource();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CustomerSelect.fxml"));
+        Parent root;
+        try {
+            root = fxmlLoader.load();
+        } catch (IOException e){
+            e.printStackTrace();
+            return;
+        }
+        Stage stage = new Stage();
+        stage.setTitle("Customer Viewer");
+        stage.setScene(new Scene(root, 600, 400));
+        CustomerSelect customerSelect = fxmlLoader.getController();
+        customerSelect.setUsername(username);
+        customerSelect.initTable();
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(button.getScene().getWindow());
+        stage.showAndWait();
     }
 
     public void newAppt(ActionEvent actionEvent) {

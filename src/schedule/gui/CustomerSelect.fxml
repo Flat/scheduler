@@ -10,8 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schedule.gui.CustomerSelect">
+<AnchorPane prefHeight="400.0" prefWidth="655.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="schedule.gui.CustomerSelect">
    <children>
       <GridPane layoutX="336.0" layoutY="64.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -47,6 +46,7 @@
                   <TableColumn fx:id="tcZip" prefWidth="75.0" text="Postal Code" />
                   <TableColumn fx:id="tcPhone" prefWidth="75.0" text="Phone" />
                   <TableColumn fx:id="tcCountry" prefWidth="75.0" text="Country" />
+                  <TableColumn fx:id="tcActive" prefWidth="75.0" text="Active" />
               </columns>
             </TableView>
          </children>

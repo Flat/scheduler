@@ -76,17 +76,17 @@ public class Customer {
         this.lastUpdateBy = lastUpdateBy;
     }
 
-    public void getAddress1() { this.getAddress().getAddress(); }
+    public String getAddress1() { return this.getAddress().getAddress(); }
 
-    public void getAddress2() { this.getAddress().getAddress2(); }
+    public String getAddress2() { return this.getAddress().getAddress2(); }
 
-    public void getCity() { this.getAddress().getCity().getCity(); }
+    public String getCity() { return this.getAddress().getCity().getCity(); }
 
-    public void getZip() { this.getAddress().getPostalCode(); }
+    public String getZip() { return this.getAddress().getPostalCode(); }
 
-    public void getPhone() { this.getAddress().getPhone(); }
+    public String getPhone() { return this.getAddress().getPhone(); }
 
-    public void getCountry() { this.getAddress().getCity().getCountry().getCountry(); }
+    public String getCountry() { return this.getAddress().getCity().getCountry().getCountry(); }
 
     public Customer(int customerId, String customerName, Address address, int active, Instant createDate, String createdBy, Instant lastUpdate, String lastUpdateBy) {
 

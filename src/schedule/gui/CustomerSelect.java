@@ -54,6 +54,9 @@ public class CustomerSelect {
     private TableColumn<Customer, String> tcCountry;
 
     @FXML
+    private TableColumn<Customer, String> tcActive;
+
+    @FXML
     public void initialize(){
         tableCustomers.setItems(customers);
         tcId.setCellValueFactory(new PropertyValueFactory<>("CustomerId"));
@@ -64,6 +67,8 @@ public class CustomerSelect {
         tcZip.setCellValueFactory(new PropertyValueFactory<>("Zip"));
         tcPhone.setCellValueFactory(new PropertyValueFactory<>("Phone"));
         tcCountry.setCellValueFactory(new PropertyValueFactory<>("Country"));
+        tcActive.setCellValueFactory(new PropertyValueFactory<>("Active"));
+
     }
 
     public void initTable() {
