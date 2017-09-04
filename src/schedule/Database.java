@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
-import javax.xml.transform.Result;
 import java.sql.*;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -316,11 +315,44 @@ public class Database {
         if(customer.getCustomerId() == 0) {
             int countryId = addorselectCountry(customer, username);
             int cityId = addorselectCity(customer, username, countryId);
-            
-
-
+            int addressId = addAddress(customer, username, cityId);
+            assert countryId != 0;
+            assert cityId != 0;
+            assert addressId != 0;
+            try(Connection connection = getConnection()){
+                PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO U03oxz.customer(customerName, addressId, active, createDate, createdBy, lastUpdateBy) VALUES(?, ?, ?, ?, ?, ?");
+                preparedStatement.setString(1, customer.getCustomerName());
+                preparedStatement.setInt(2, addressId);
+                preparedStatement.setInt(3, 1);
+                preparedStatement.setTimestamp(4, Timestamp.from(Instant.now()));
+                preparedStatement.setString(5, username);
+                preparedStatement.setString(6, username);
+                preparedStatement.execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         } else {
-            // update customer
+            try(Connection connection = getConnection()){
+                PreparedStatement updateCustomer = connection.prepareStatement("UPDATE U03oxz.customer SET customerName = ?, active = ?, lastUpdateBy = ? WHERE customerId = ?");
+                updateCustomer.setString(1, customer.getCustomerName());
+                updateCustomer.setInt(2, customer.getActive());
+                updateCustomer.setString(3, username);
+                updateCustomer.setInt(4, customer.getCustomerId());
+                PreparedStatement updateAddress = connection.prepareStatement("UPDATE U03oxz.address SET address = ?, address2 = ?, cityId = ?, postalCode = ?, phone = ?, lastUpdateBy = ?");
+                int countryId = addorselectCountry(customer, username);
+                int cityId = addorselectCity(customer, username, countryId);
+                assert cityId != 0;
+                updateAddress.setString(1, customer.getAddress().getAddress());
+                updateAddress.setString(2, customer.getAddress().getAddress2());
+                updateAddress.setInt(3, cityId);
+                updateAddress.setString(4, customer.getAddress().getPostalCode());
+                updateAddress.setString(5, customer.getAddress().getPhone());
+                updateAddress.setString(6, username);
+                updateAddress.execute();
+                updateCustomer.execute();
+            } catch (SQLException e){
+                e.printStackTrace();
+            }
         }
 
     }
@@ -376,5 +408,29 @@ public class Database {
         return 0;
 
     }
+
+    private int addAddress(Customer customer, String username, int cityId) {
+        try(Connection connection = getConnection()){
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO U03oxz.address(address, address2, cityId, postalCode, phone, createDate, createdBy, lastUpdateBy) VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
+            preparedStatement.setString(1, customer.getAddress().getAddress());
+            preparedStatement.setString(2, customer.getAddress().getAddress2());
+            preparedStatement.setInt(3, cityId);
+            preparedStatement.setString(4, customer.getAddress().getPostalCode());
+            preparedStatement.setString(5, customer.getAddress().getPhone());
+            preparedStatement.setTimestamp(6, Timestamp.from(Instant.now()));
+            preparedStatement.setString(7, username);
+            preparedStatement.setString(8, username);
+            preparedStatement.executeUpdate();
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            if(resultSet.next()){
+                return resultSet.getInt("addressId");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+
 
 }
