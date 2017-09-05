@@ -68,7 +68,7 @@ public class CustomerManager {
         return customer;
     }
 
-    private void save(){
+    public void save(){
         if(validate()){
             if (tfId.getText().isEmpty() && customer == null){
                 Country country = new Country(0, tfCountry.getText(), Instant.now(), "", Instant.now(), "");
@@ -95,7 +95,7 @@ public class CustomerManager {
         }
     }
 
-    private void cancel() {
+    public void cancel() {
         customer = null;
         Stage stage = (Stage) btnCancel.getScene().getWindow();
         stage.close();
@@ -104,6 +104,7 @@ public class CustomerManager {
     private boolean validate(){
         if(tfName.getText().isEmpty() || tfAddress1.getText().isEmpty() || tfAddress2.getText().isEmpty() || tfCity.getText().isEmpty() || tfPhone.getText().isEmpty() || tfZipCode.getText().isEmpty() || tfCountry.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "All fields are required!");
+            alert.show();
             return false;
         } else {
             return true;

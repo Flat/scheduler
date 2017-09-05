@@ -2,6 +2,7 @@ package schedule.gui;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,8 +17,6 @@ import javafx.stage.StageStyle;
 import schedule.Customer;
 import schedule.Database;
 
-import javax.xml.crypto.Data;
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 
 public class CustomerSelect {
@@ -116,6 +115,7 @@ public class CustomerSelect {
         if(cust != null){
             Database database = new Database();
             database.addCustomer(cust, username);
+            updateTable();
         }
     }
 
@@ -141,6 +141,12 @@ public class CustomerSelect {
         if(cust != null){
             Database database = new Database();
             database.addCustomer(cust, username);
+            updateTable();
         }
+    }
+
+    public void cancel() {
+        Stage stage = (Stage) btnCancel.getScene().getWindow();
+        stage.close();
     }
 }

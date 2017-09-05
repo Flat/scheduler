@@ -259,7 +259,7 @@ public class Database {
                     "    ON U03oxz.address.cityId = U03oxz.city.cityId " +
                     "INNER JOIN U03oxz.country " +
                     "    ON U03oxz.city.countryId = U03oxz.country.countryId " +
-                    "WHERE U03oxz.customer.createdBy = ? AND U03oxz.customer.active = 1 ;");
+                    "WHERE U03oxz.customer.createdBy = ? ;");
             preparedStatement.setString(1, username);
             boolean haveResult = preparedStatement.execute();
             if(haveResult){
@@ -320,7 +320,7 @@ public class Database {
             assert cityId != 0;
             assert addressId != 0;
             try(Connection connection = getConnection()){
-                PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO U03oxz.customer(customerName, addressId, active, createDate, createdBy, lastUpdateBy) VALUES(?, ?, ?, ?, ?, ?");
+                PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO U03oxz.customer(customerName, addressId, active, createDate, createdBy, lastUpdateBy) VALUES(?, ?, ?, ?, ?, ?)");
                 preparedStatement.setString(1, customer.getCustomerName());
                 preparedStatement.setInt(2, addressId);
                 preparedStatement.setInt(3, 1);
@@ -338,7 +338,7 @@ public class Database {
                 updateCustomer.setInt(2, customer.getActive());
                 updateCustomer.setString(3, username);
                 updateCustomer.setInt(4, customer.getCustomerId());
-                PreparedStatement updateAddress = connection.prepareStatement("UPDATE U03oxz.address SET address = ?, address2 = ?, cityId = ?, postalCode = ?, phone = ?, lastUpdateBy = ?");
+                PreparedStatement updateAddress = connection.prepareStatement("UPDATE U03oxz.address SET address = ?, address2 = ?, cityId = ?, postalCode = ?, phone = ?, lastUpdateBy = ? WHERE addressId = ?");
                 int countryId = addorselectCountry(customer, username);
                 int cityId = addorselectCity(customer, username, countryId);
                 assert cityId != 0;
@@ -348,6 +348,7 @@ public class Database {
                 updateAddress.setString(4, customer.getAddress().getPostalCode());
                 updateAddress.setString(5, customer.getAddress().getPhone());
                 updateAddress.setString(6, username);
+                updateAddress.setInt(7, customer.getAddress().getAddressId());
                 updateAddress.execute();
                 updateCustomer.execute();
             } catch (SQLException e){
@@ -360,7 +361,7 @@ public class Database {
     private int addorselectCountry(Customer customer, String username) {
         try(Connection connection = getConnection()) {
             PreparedStatement selectCountry = connection.prepareStatement("SELECT * FROM U03oxz.country WHERE U03oxz.country.country = ?");
-            PreparedStatement insertCountry = connection.prepareStatement("INSERT INTO U03oxz.country(country, createDate, createdBy, lastUpdateBy) VALUES (?, ?, ?, ?)");
+            PreparedStatement insertCountry = connection.prepareStatement("INSERT INTO U03oxz.country(country, createDate, createdBy, lastUpdateBy) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             selectCountry.setString(1, customer.getAddress().getCity().getCountry().getCountry());
             insertCountry.setString(1, customer.getAddress().getCity().getCountry().getCountry());
             insertCountry.setTimestamp(2, Timestamp.from(Instant.now()));
@@ -373,7 +374,7 @@ public class Database {
                 insertCountry.executeUpdate();
                 ResultSet countryIdResult = insertCountry.getGeneratedKeys();
                 if(countryIdResult.next()) {
-                    return countryIdResult.getInt("countryId");
+                    return countryIdResult.getInt(1);
                 }
             }
         } catch (SQLException e) {
@@ -384,9 +385,10 @@ public class Database {
 
     private int addorselectCity(Customer customer, String username, int countryId){
         try(Connection connection = getConnection()) {
-            PreparedStatement selectCity = connection.prepareStatement("SELECT * FROM U03oxz.city WHERE U03oxz.city.city = ?");
-            PreparedStatement insertCity =  connection.prepareStatement("INSERT INTO U03oxz.city(city, countryId, createdBy, createDate, lastUpdateBy) VALUES(?, ?, ?, ? , ?)");
+            PreparedStatement selectCity = connection.prepareStatement("SELECT * FROM U03oxz.city WHERE U03oxz.city.city = ? AND U03oxz.city.countryId = ?");
+            PreparedStatement insertCity =  connection.prepareStatement("INSERT INTO U03oxz.city(city, countryId, createdBy, createDate, lastUpdateBy) VALUES(?, ?, ?, ? , ?)", Statement.RETURN_GENERATED_KEYS);
             selectCity.setString(1, customer.getAddress().getCity().getCity());
+            selectCity.setInt(2, countryId);
             ResultSet resultCity = selectCity.executeQuery();
             if(resultCity.next()){
                 return resultCity.getInt("cityId");
@@ -399,7 +401,7 @@ public class Database {
                 insertCity.executeUpdate();
                 ResultSet cityIdResult = insertCity.getGeneratedKeys();
                 if(cityIdResult.next()){
-                    return cityIdResult.getInt("cityId");
+                    return cityIdResult.getInt(1);
                 }
             }
         } catch (SQLException e) {
@@ -411,7 +413,7 @@ public class Database {
 
     private int addAddress(Customer customer, String username, int cityId) {
         try(Connection connection = getConnection()){
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO U03oxz.address(address, address2, cityId, postalCode, phone, createDate, createdBy, lastUpdateBy) VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO U03oxz.address(address, address2, cityId, postalCode, phone, createDate, createdBy, lastUpdateBy) VALUES(?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, customer.getAddress().getAddress());
             preparedStatement.setString(2, customer.getAddress().getAddress2());
             preparedStatement.setInt(3, cityId);
@@ -423,7 +425,7 @@ public class Database {
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             if(resultSet.next()){
-                return resultSet.getInt("addressId");
+                return resultSet.getInt(1);
             }
         } catch (SQLException e) {
             e.printStackTrace();

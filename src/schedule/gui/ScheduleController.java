@@ -176,7 +176,7 @@ public class ScheduleController {
             return;
         }
         Stage stage = new Stage();
-        stage.setTitle("NewAppointment");
+        stage.setTitle("New Appointment");
         stage.setScene(new Scene(root, 350, 400));
         AppointmentManager appointmentManager = fxmlLoader.getController();
         appointmentManager.init(username, appointments);
