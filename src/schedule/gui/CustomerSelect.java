@@ -3,14 +3,22 @@ package schedule.gui;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import schedule.Customer;
 import schedule.Database;
 
+import javax.xml.crypto.Data;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 
 public class CustomerSelect {
 
@@ -86,11 +94,53 @@ public class CustomerSelect {
     }
 
     public void editCustomer(ActionEvent actionEvent){
-        //Launch editor
-        tableCustomers.getSelectionModel().getSelectedItem();
+        Button button = (Button) actionEvent.getSource();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CustomerManager.fxml"));
+        Parent root;
+        try {
+            root = fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        Stage stage = new Stage();
+        stage.setTitle("Customer Manager");
+        stage.setScene(new Scene(root, 500, 400));
+        CustomerManager customerManager = fxmlLoader.getController();
+        customerManager.initFields(tableCustomers.getSelectionModel().getSelectedItem());
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(button.getScene().getWindow());
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.showAndWait();
+        Customer cust = customerManager.getCustomer();
+        if(cust != null){
+            Database database = new Database();
+            database.addCustomer(cust, username);
+        }
     }
 
     public void newCustomer(ActionEvent actionEvent){
-        //Launch editor
+        Button button = (Button) actionEvent.getSource();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CustomerManager.fxml"));
+        Parent root;
+        try {
+            root = fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        Stage stage = new Stage();
+        stage.setTitle("Customer Manager");
+        stage.setScene(new Scene(root, 500, 400));
+        CustomerManager customerManager = fxmlLoader.getController();
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(button.getScene().getWindow());
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.showAndWait();
+        Customer cust = customerManager.getCustomer();
+        if(cust != null){
+            Database database = new Database();
+            database.addCustomer(cust, username);
+        }
     }
 }
