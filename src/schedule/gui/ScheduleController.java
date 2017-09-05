@@ -30,6 +30,15 @@ public class ScheduleController {
     private ObservableList<Appointment> appointments = FXCollections.observableArrayList();
 
     @FXML
+    private MenuItem mnuApptType;
+
+    @FXML
+    private MenuItem mnuSchedule;
+
+    @FXML
+    private MenuItem mnuNumCust;
+
+    @FXML
     private Button btnPrevMonth;
 
     @FXML
@@ -234,5 +243,20 @@ public class ScheduleController {
                 alert.show();
             }
         }
+    }
+
+    @FXML
+    void scheduleByConsult(ActionEvent event) {
+        /* TODO Reports */
+    }
+
+    @FXML
+    void numCust(ActionEvent event) {
+        /* TODO Reports */
+    }
+
+    @FXML
+    void apptTypeMonth(ActionEvent event) {
+        /* TODO Reports */
     }
 }

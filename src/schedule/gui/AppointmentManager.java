@@ -15,6 +15,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Iterator;
 
 public class AppointmentManager {
 
@@ -210,7 +211,9 @@ public class AppointmentManager {
     public void init(String username1, ObservableList<Appointment> appointments1){
         username = username1;
         Database database = new Database();
-        cbCustomer.setItems(database.getCustomers(username));
+        ObservableList<Customer> customers = database.getCustomers(username);
+        customers.removeIf(customer -> customer.getActive() == 0);
+        cbCustomer.setItems(customers);
         appointments = appointments1;
     }
 

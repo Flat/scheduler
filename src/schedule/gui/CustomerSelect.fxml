@@ -25,7 +25,7 @@
          <children>
             <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>
-                  <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
+                  <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#cancel" text="Close" />
                   <Button fx:id="btnNew" mnemonicParsing="false" onAction="#newCustomer" text="New" />
                   <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#editCustomer" text="Edit" />
                </children>
