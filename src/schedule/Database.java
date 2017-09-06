@@ -438,7 +438,7 @@ public class Database {
             PreparedStatement getConsultants = connection.prepareStatement("SELECT * FROM U03oxz.user");
             ResultSet consultants = getConsultants.executeQuery();
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("Monthly Schedule by Consultant\n");
+            stringBuilder.append("Monthly Schedule by Consultant\n\n");
             while(consultants.next()){
                 String consultant = consultants.getString("userName");
                 stringBuilder.append(consultant);
@@ -450,11 +450,12 @@ public class Database {
                     stringBuilder.append(" with ");
                     stringBuilder.append(appointment.getCustomer().getCustomerName());
                     stringBuilder.append(" on ");
-                    stringBuilder.append(appointment.getStart().format(DateTimeFormatter.ofPattern("E M d, u")));
+                    stringBuilder.append(appointment.getStart().format(DateTimeFormatter.ofPattern("E L d, u")));
                     stringBuilder.append(" ends on ");
-                    stringBuilder.append(appointment.getEnd().format(DateTimeFormatter.ofPattern("E M d, u")));
-                    stringBuilder.append("\n\n");
+                    stringBuilder.append(appointment.getEnd().format(DateTimeFormatter.ofPattern("E L d, u")));
+                    stringBuilder.append("\n");
                 }));
+                stringBuilder.append("\n");
             }
             log.report("ScheduleByConsultant.txt", stringBuilder.toString());
 

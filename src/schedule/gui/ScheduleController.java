@@ -249,17 +249,23 @@ public class ScheduleController {
     void scheduleByConsult(ActionEvent event) {
         Database database = new Database();
         database.scheduleByConsultant(zonedDateTime);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Report complete!");
+        alert.show();
     }
 
     @FXML
     void numCust(ActionEvent event) {
         Database database = new Database();
         database.numCust();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Report complete!");
+        alert.show();
     }
 
     @FXML
     void apptTypeMonth(ActionEvent event) {
         Database database = new Database();
         database.apptTypeMonth(zonedDateTime.getMonthValue(), zonedDateTime.getYear());
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Report complete!");
+        alert.show();
     }
 }
