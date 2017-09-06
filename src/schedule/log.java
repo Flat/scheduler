@@ -13,7 +13,7 @@ public class log {
         System.out.println(now + ": " + s);
     }
 
-    public static void file(String s){
+    public static void login(String s){
         String now = LocalTime.now().toString();
         Path path = Paths.get("logins.txt");
         if (!Files.exists(path)) {
@@ -30,4 +30,14 @@ public class log {
             e.printStackTrace();
         }
     }
+
+    public static void report(String filename, String content) {
+        Path path = Paths.get(filename);
+        try(BufferedWriter bufferedWriter = Files.newBufferedWriter(path, StandardCharsets.UTF_8, StandardOpenOption.CREATE)) {
+            bufferedWriter.write(content);
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

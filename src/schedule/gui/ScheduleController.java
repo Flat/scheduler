@@ -247,16 +247,19 @@ public class ScheduleController {
 
     @FXML
     void scheduleByConsult(ActionEvent event) {
-        /* TODO Reports */
+        Database database = new Database();
+        database.scheduleByConsultant(zonedDateTime);
     }
 
     @FXML
     void numCust(ActionEvent event) {
-        /* TODO Reports */
+        Database database = new Database();
+        database.numCust();
     }
 
     @FXML
     void apptTypeMonth(ActionEvent event) {
-        /* TODO Reports */
+        Database database = new Database();
+        database.apptTypeMonth(zonedDateTime.getMonthValue(), zonedDateTime.getYear());
     }
 }

@@ -5,11 +5,11 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
+import javax.xml.transform.Result;
 import java.sql.*;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
+import java.text.DateFormatSymbols;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 
 public class Database {
 
@@ -433,6 +433,84 @@ public class Database {
         return 0;
     }
 
+    public void scheduleByConsultant(ZonedDateTime zonedDateTime){
+        try(Connection connection = getConnection()) {
+            PreparedStatement getConsultants = connection.prepareStatement("SELECT * FROM U03oxz.user");
+            ResultSet consultants = getConsultants.executeQuery();
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("Monthly Schedule by Consultant\n");
+            while(consultants.next()){
+                String consultant = consultants.getString("userName");
+                stringBuilder.append(consultant);
+                stringBuilder.append(":\n");
+                ObservableList<Appointment> appointments = getAppointments(consultant, zonedDateTime, false);
+                appointments.forEach((appointment -> {
+                    stringBuilder.append("Appointment: ");
+                    stringBuilder.append(appointment.getTitle());
+                    stringBuilder.append(" with ");
+                    stringBuilder.append(appointment.getCustomer().getCustomerName());
+                    stringBuilder.append(" on ");
+                    stringBuilder.append(appointment.getStart().format(DateTimeFormatter.ofPattern("E M d, u")));
+                    stringBuilder.append(" ends on ");
+                    stringBuilder.append(appointment.getEnd().format(DateTimeFormatter.ofPattern("E M d, u")));
+                    stringBuilder.append("\n\n");
+                }));
+            }
+            log.report("ScheduleByConsultant.txt", stringBuilder.toString());
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void numCust(){
+        try(Connection connection = getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT COUNT(customerId) FROM U03oxz.customer;");
+            ResultSet numCustomers = preparedStatement.executeQuery();
+            if(numCustomers.next()){
+                log.report("NumberOfCustomers.txt", String.format("Number of customers as of %tc: %d", ZonedDateTime.now(ZoneId.systemDefault()), numCustomers.getInt(1)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void apptTypeMonth(int month, int year){
+        try(Connection connection = getConnection()) {
+            PreparedStatement initialStatement = connection.prepareStatement("SELECT COUNT(appointmentId) FROM U03oxz.appointment WHERE DATE_FORMAT(U03oxz.appointment.start, \"%m\") = ? AND DATE_FORMAT(U03oxz.appointment.start, \"%Y\") = ? AND U03oxz.appointment.description = \"Initial\";");
+            PreparedStatement followupStatement = connection.prepareStatement("SELECT COUNT(appointmentId) FROM U03oxz.appointment WHERE DATE_FORMAT(U03oxz.appointment.start, \"%m\") = ? AND DATE_FORMAT(U03oxz.appointment.start, \"%Y\") = ? AND U03oxz.appointment.description = \"Followup\";");
+            PreparedStatement closingStatement = connection.prepareStatement("SELECT COUNT(appointmentId) FROM U03oxz.appointment WHERE DATE_FORMAT(U03oxz.appointment.start, \"%m\") = ? AND DATE_FORMAT(U03oxz.appointment.start, \"%Y\") = ? AND U03oxz.appointment.description = \"Closing\";");
+            initialStatement.setInt(1, month);
+            initialStatement.setInt(2, year);
+            followupStatement.setInt(1, month);
+            followupStatement.setInt(2, year);
+            closingStatement.setInt(1, month);
+            closingStatement.setInt(2, year);
+            ResultSet initial = initialStatement.executeQuery();
+            ResultSet followup = followupStatement.executeQuery();
+            ResultSet closing = closingStatement.executeQuery();
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(String.format("Appointments by Type for the month of %tB\n", LocalDate.of(year, month, 1)));
+            if (initial.next()){
+                stringBuilder.append(String.format("Initial: %d\n", initial.getInt(1)));
+            } else {
+                stringBuilder.append(String.format("Initial: %d\n", 0));
+            }
+            if (followup.next()){
+                stringBuilder.append(String.format("Followup: %d\n", followup.getInt(1)));
+            } else {
+                stringBuilder.append(String.format("Followup: %d\n", 0));
+            }
+            if (closing.next()){
+                stringBuilder.append(String.format("Closing: %d\n", closing.getInt(1)));
+            } else {
+                stringBuilder.append(String.format("Closing: %d\n", 0));
+            }
+            log.report("AppointmentTypesByMonth.txt", stringBuilder.toString());
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

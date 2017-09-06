@@ -106,6 +106,14 @@ public class CustomerManager {
             Alert alert = new Alert(Alert.AlertType.ERROR, "All fields are required!");
             alert.show();
             return false;
+        } else if(!tfPhone.getText().matches("^[0-9\\-]*$")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Phone number must be valid!");
+            alert.show();
+            return false;
+        } else if(!tfZipCode.getText().matches("^\\d{5}$")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Postal code must be a 5 digit number!");
+            alert.show();
+            return false;
         } else {
             return true;
         }

@@ -48,7 +48,7 @@ public class LoginController implements Initializable {
         boolean loggedIn;
         loggedIn = database.loginUser(textfieldUser.getText(), textfieldPassword.getText());
         if (loggedIn) {
-            log.file("User " + textfieldUser.getText() + " logged in");
+            log.login("User " + textfieldUser.getText() + " logged in");
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("schedule.fxml"));
             Parent root;
             try {
