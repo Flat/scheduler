@@ -155,7 +155,7 @@ public class ScheduleController {
 
     public void newCustomer(ActionEvent actionEvent) {
         Button button = (Button) actionEvent.getSource();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CustomerSelect.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/gui/CustomerSelect.fxml"));
         Parent root;
         try {
             root = fxmlLoader.load();
@@ -176,7 +176,7 @@ public class ScheduleController {
 
     public void newAppt(ActionEvent actionEvent) {
         Button button = (Button) actionEvent.getSource();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AppointmentManager.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/gui/AppointmentManager.fxml"));
         Parent root;
         try {
             root = fxmlLoader.load();

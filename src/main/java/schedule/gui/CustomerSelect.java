@@ -94,7 +94,7 @@ public class CustomerSelect {
 
     public void editCustomer(ActionEvent actionEvent){
         Button button = (Button) actionEvent.getSource();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CustomerManager.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/gui/CustomerManager.fxml"));
         Parent root;
         try {
             root = fxmlLoader.load();
@@ -121,7 +121,7 @@ public class CustomerSelect {
 
     public void newCustomer(ActionEvent actionEvent){
         Button button = (Button) actionEvent.getSource();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CustomerManager.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/gui/CustomerManager.fxml"));
         Parent root;
         try {
             root = fxmlLoader.load();

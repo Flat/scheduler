@@ -11,7 +11,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         log.console("Loading main dialog");
-        Parent root = FXMLLoader.load(getClass().getResource("gui/login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/gui/login.fxml"));
         primaryStage.setTitle(I18n.getLocalizedString("loginTitle"));
         primaryStage.setScene(new Scene(root, 350, 200));
         primaryStage.show();
