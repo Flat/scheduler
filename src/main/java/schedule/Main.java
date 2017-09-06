@@ -19,7 +19,7 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-        I18n.testLocale("ja");
+        //I18n.testLocale("ja");
         launch(args);
     }
 }
